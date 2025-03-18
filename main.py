@@ -1,39 +1,47 @@
 # To-Do App
 
+#importing elements from another file
+# from functions import get_todos, write_todos
+# or like this, and then adding functions. before the function you want to call (eg. functions.get_todos())
+import functions
+# importing time and date using built in Python modules
+import time
 
+now = time.strftime("%b %d, %Y, %H:%M:%S")
+print("It is", now)
 
 while True: 
     # Get user input and account for user input errors 
     user_action = input("Type add, show, edit, complete, or exit: ")
     user_action = user_action.strip()
 
-    if 'add'in user_action:
-        todo = user_action[4:] #slices user_action to remove the "add " string input
+    if user_action.startswith('add'):
+        todo = user_action[4:]#slices user_action to remove the "add " string input
 
         # file = open('todos.txt', 'r')
         # todos = file.readlines()
         # file.close()
 
         # This way of opening the file is much better as it makes sure the file closes even if the code stops running on that block of code
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
 
-        todos.append(todo)
+
+        todos = functions.get_todos()
+        # Calls the get_todos() function
+
+        todos.append(todo + '\n')
 
         # file = open('todos.txt', 'w')
         # file.writelines(todos)
         # file.close()
 
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
+        functions.write_todos(todos)
 
-    elif 'show' in user_action:
+    elif user_action.startswith('show'):
         # file = open('todos.txt', 'r')
         # todos = file.readlines()
         # file.close()
 
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
+        todos = functions.get_todos()
 
         # new_todos = []
 
@@ -48,42 +56,48 @@ while True:
             item = item.strip('\n')
             row = f"{index + 1}-{item}"
             print(row)
-    elif 'edit' in user_action:
-        number = int(user_action[5:])
-        print(number)
-        number = number - 1
 
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
-        # print("Here is todos existing", todos)
+    elif user_action.startswith('edit'):
+        try:
+            number = int(user_action[5:])
+            print(number)
+            number = number - 1
 
-        new_todo = input("Enter new todo: ")
-        todos[number] = new_todo + '\n'
+            todos = functions.get_todos()
+            # print("Here is todos existing", todos)
 
-        #print("Here is how it will be", todos)
+            new_todo = input("Enter new todo: ")
+            todos[number] = new_todo + '\n'
 
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
+            #print("Here is how it will be", todos)
 
-    elif 'complete' in user_action:
-        number = int(user_action[9:])
-        print(number)
+            functions.write_todos(todos)
 
-        with open('todos.txt', 'r') as file:
-            todos = file.readlines()
-        # print("Here is todos existing", todos)
+        except ValueError:
+            print("Your command is not valid.")
+            continue # Runs the while loop again
 
-        index = number -1
-        todo_to_remove = todos[index].strip('\n')
-        todos.pop(index)
 
-        with open('todos.txt', 'w') as file:
-            file.writelines(todos)
+    elif user_action.startswith('complete'):
+        try:
+            number = int(user_action[9:])
+            print(number)
 
-        message = f"Todo '{todo_to_remove}' was removed from the list."
-        print(message)
-        
-    elif 'exit' in user_action:
+            todos = functions.get_todos()
+
+            index = number -1
+            todo_to_remove = todos[index].strip('\n')
+            todos.pop(index)
+
+            functions.write_todos(todos)
+
+            message = f"Todo '{todo_to_remove}' was removed from the list."
+            print(message)
+        except IndexError:
+            print("There is no item with that number.")
+            continue
+
+    elif user_action.startswith('exit'):
         break
     else:
         print("Invalid command, try again")

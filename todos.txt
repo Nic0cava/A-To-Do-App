@@ -1,0 +1,6 @@
+read
+code
+do hw
+write
+make bed
+clean room
