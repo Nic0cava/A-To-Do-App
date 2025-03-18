@@ -7,6 +7,7 @@ import functions
 # importing time and date using built in Python modules
 import time
 
+
 now = time.strftime("%b %d, %Y, %H:%M:%S")
 print("It is", now)
 
