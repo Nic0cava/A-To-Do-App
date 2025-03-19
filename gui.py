@@ -1,6 +1,13 @@
 import FreeSimpleGUI.window
 import functions
 import time
+import os
+
+# will create the todo.txt file if it doesn't already exist
+if not os.path.exists("todos.txt"):
+    with open("todos.txt", "w") as file:
+        pass
+
 
 # third party modules/libraries 
 # go to pypi.org to find

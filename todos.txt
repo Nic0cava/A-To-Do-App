@@ -1,8 +1,1 @@
-code
-make bed
-clean room
-make dinner
-do the dishes
-sweep floor
-read
-wash car
+
