@@ -1,2 +1,6 @@
 __pycache__/functions.cpython-313.pyc
 __pycache__
+.venv
+build
+dist
+gui.spec

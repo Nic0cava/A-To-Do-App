@@ -1,1 +1,4 @@
-
+clean
+do hw
+read
+code
